@@ -1,0 +1,36 @@
+recipes.vtl
+
+<h2>All Recipes</h2>
+
+<ul>
+#foreach ($recipe in $recipes)
+  <li><a href="/recipes/$recipe.getId()">$recipe.getTitle(), $recipe.getIngredients() </a></li>
+  <form action="/recipes/$recipe.getId()/delete" class="form-inline" method="post">
+    <input id="recipeId" name="recipeId" type="hidden" value="$recipe.getId()">
+    <button id="$recipe.getId()" type ="submit">Delete Recipe</button>
+  </form>
+#end
+</ul>
+
+<form action="/recipes" method="post">
+  <label for="recipe_name">Recipe Name</label>
+  <input id="recipe_name" name="recipe_name" type="text" required autofocus="autofocus">
+
+  <label for="ingredients">Recipe Ingredients</label>
+  <input id="ingredients" name="ingredients" type="text" required>
+
+  <button type="submit" id="addRecipe">Add Recipe</button>
+</form>
+
+<hr>
+
+<a href="/recipes">Return to Recipe List</a>
+<p></p>
+<a href="/tags">Return to Tag List</a>
+
+<p></p>
+<p></p>
+
+<form action="/recipes/deleteAll" method="post">
+    <button id="deleteAllRecipesBtn" type="submit" class="btn btn-warning">Delete All Recipes</button>
+</form>

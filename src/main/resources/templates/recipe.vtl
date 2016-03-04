@@ -1,0 +1,44 @@
+recipe.vtl
+
+<h2>$recipe.getTitle()</h2>
+<h4>$recipe.getIngredients()</h4>
+<h4>$recipe.getInstructions()</h4>
+<h4>$recipe.getRating()</h4>
+#if ($recipe.getTags())
+  <p>Here are the tags you have applied to this recipe:</p>
+  #foreach ($tag in $recipe.getTags())
+    <li><a href="/tags/$tag.getId()">$tag.getTitle()</a></li>
+  #end
+#end
+
+<form action="/recipes/$recipe.getId()" method="post">
+
+  <input id="recipe_id" name="recipe_id" type="hidden" value="$recipe.getId()">
+
+
+  <label for="tagTitle">Assign Tag</label>
+  <select id="tagTitle" name="tagTitle" type="text">
+    #foreach($tag in $allTags)
+    <option value="$tag.getId()">$tag.getTitle()</option>
+    #end
+  </select>
+  <button id="assignTagBtn" type="submit">Assign Tag</button>
+</form>
+
+<hr>
+
+<form action="/recipes/$recipe.getId()/update" method="post">
+  <label for="updateRecipeTitle">Recipe Name</label>
+  <input id="updateRecipeTitle" name="updateRecipeTitle" type="text" required autofocus="autofocus" value="$recipe.getTitle()">
+
+  <label for="updateRecipeIngredients">Recipe Ingredients</label>
+  <input id="updateRecipeIngredients" name="updateRecipeIngredients" value="$recipe.getIngredients()" type="text" required>
+
+  <button type="submit" id="updateRecipe">Update Recipe</button>
+</form>
+
+<hr>
+
+  <a href="/recipes">Return to Recipe List</a>
+  <p></p>
+  <a href="/tags">Return to Tag List</a>
