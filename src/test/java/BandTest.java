@@ -63,38 +63,14 @@ public class BandTest {
     assertEquals(Band.all().get(0).getGenre(), ("Pop"));
   }
 
-  // @Test
-  // public void updateIngredients_updatesIngredientsOfObject() {
-  //   Band newBand = new Band("Sally", "Tomatoes");
-  //   newBand.save();
-  //   newBand.updateIngredients("1901/01/01");
-  //   assertEquals(Band.all().get(0).getIngredients(), ("1901/01/01"));
-  // }
-  //
-  // @Test
-  // public void updateInstructions_updatesInstructionsOfObject() {
-  //   Band newBand = new Band("Sally", "Tomatoes", "Bake 350");
-  //   newBand.save();
-  //   newBand.updateInstructions("1901/01/01");
-  //   assertEquals(Band.all().get(0).getInstructions(), ("1901/01/01"));
-  // }
-  //
-  // @Test
-  // public void updateRating_updatesRatingOfObject() {
-  //   Band newBand = new Band("Sally", "Tomatoes", "Bake 350", 1);
-  //   newBand.save();
-  //   newBand.updateRating(4);
-  //   assertEquals(Band.all().get(0).getRating(), (4));
-  // }
-  //
-  // @Test
-  // public void deleteBand() {
-  //   Band newBand = new Band("BLT");
-  //   newBand.save();
-  //   newBand.delete();
-  //   assertEquals(Band.all().size(), 0);
-  // }
-  //
+  @Test
+  public void delete() {
+    Band newBand = new Band("Huey Lewis and the News");
+    newBand.save();
+    newBand.delete();
+    assertEquals(Band.all().size(), 0);
+  }
+
   // @Test
   // public void addConcert_addsConcertToBand() {
   //   Band newBand = new Band("BLT");
