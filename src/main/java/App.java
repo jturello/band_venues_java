@@ -9,131 +9,131 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    get("/", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/index.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    get("/recipes", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("recipes", Recipe.all());
-
-      model.put("template", "templates/recipes.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    get("/tags", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("tags", Tag.all());
-      model.put("template", "templates/tags.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    post("/recipes/deleteAll", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        Recipe.deleteAll();
-        response.redirect("/recipes");
-        return null;
-    });
-
-    post("/recipes/:id/update", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        int id = Integer.parseInt(request.params("id"));
-        Recipe recipe = Recipe.find(id);
-        String recipeTitle = request.queryParams("updateRecipeTitle");
-        String recipeIngredients = request.queryParams("updateRecipeIngredients");
-        recipe.updateAll(recipeTitle, recipeIngredients);
-        response.redirect("/recipes/" + id);
-        return null;
-    });
-
-    get("/recipes/:id", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      int id = Integer.parseInt(request.params("id"));
-      Recipe recipe = Recipe.find(id);
-      model.put("recipe", recipe);
-      model.put("allTags", Tag.all());
-      model.put("template", "templates/recipe.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    post("/tags/deleteAll", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        Tag.deleteAll();
-        response.redirect("/tags");
-        return null;
-    });
-
-    get("/tags/:id", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      int id = Integer.parseInt(request.params("id"));
-      Tag tag = Tag.find(id);
-      model.put("tag", tag);
-      model.put("allRecipes", Recipe.all());
-      model.put("template", "templates/tag.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    post("/recipes", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-
-      String recipe_name = request.queryParams("recipe_name");
-      String ingredients = request.queryParams("ingredients");
-      Recipe newRecipe = new Recipe(recipe_name, ingredients);
-      newRecipe.save();
-      response.redirect("/recipes");
-      return null;
-    });
-
-    post("/recipes/:id/delete", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      int recipeId = Integer.parseInt(request.queryParams("recipeId"));
-      Recipe recipe = Recipe.find(recipeId);
-      recipe.delete();
-      response.redirect("/recipes");
-      return null;
-    });
-
-    post("/recipes/:id", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      int recipeId = Integer.parseInt(request.queryParams("recipe_id"));
-      int tagId = Integer.parseInt(request.queryParams("tagTitle"));
-      Tag tag = Tag.find(tagId);
-      Recipe recipe = Recipe.find(recipeId);
-      recipe.addTag(tag);
-      response.redirect("/recipes/" + recipeId);
-      return null;
-    });
-
-    post("/tags/:id", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      int tagId = Integer.parseInt(request.queryParams("tag_id"));
-      int recipeId = Integer.parseInt(request.queryParams("recipe_id"));
-      Recipe recipe = Recipe.find(recipeId);
-      Tag tag = Tag.find(tagId);
-      tag.addRecipe(recipe);
-      response.redirect("/tags/" + tagId);
-      return null;
-    });
-
-    post("/tags", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      String tagTitle = request.queryParams("tagTitle");
-      Tag newTag = new Tag(tagTitle);
-      newTag.save();
-      response.redirect("/tags");
-      return null;
-    });
-
-    post("/tags/:id/delete", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      int tagId = Integer.parseInt(request.queryParams("tagId"));
-      Tag tag = Tag.find(tagId);
-      tag.delete();
-      response.redirect("/tags");
-      return null;
-    });
+    // get("/", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   model.put("template", "templates/index.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
+    //
+    // get("/bands", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   model.put("bands", Band.all());
+    //
+    //   model.put("template", "templates/bands.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
+    //
+    // get("/concerts", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   model.put("concerts", Concert.all());
+    //   model.put("template", "templates/concerts.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
+    //
+    // post("/bands/deleteAll", (request, response) -> {
+    //     HashMap<String, Object> model = new HashMap<String, Object>();
+    //     Band.deleteAll();
+    //     response.redirect("/bands");
+    //     return null;
+    // });
+    //
+    // post("/bands/:id/update", (request, response) -> {
+    //     HashMap<String, Object> model = new HashMap<String, Object>();
+    //     int id = Integer.parseInt(request.params("id"));
+    //     Band band = Band.find(id);
+    //     String bandTitle = request.queryParams("updateBandTitle");
+    //     String bandIngredients = request.queryParams("updateBandIngredients");
+    //     band.updateAll(bandTitle, bandIngredients);
+    //     response.redirect("/bands/" + id);
+    //     return null;
+    // });
+    //
+    // get("/bands/:id", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   int id = Integer.parseInt(request.params("id"));
+    //   Band band = Band.find(id);
+    //   model.put("band", band);
+    //   model.put("allConcerts", Concert.all());
+    //   model.put("template", "templates/band.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
+    //
+    // post("/concerts/deleteAll", (request, response) -> {
+    //     HashMap<String, Object> model = new HashMap<String, Object>();
+    //     Concert.deleteAll();
+    //     response.redirect("/concerts");
+    //     return null;
+    // });
+    //
+    // get("/concerts/:id", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   int id = Integer.parseInt(request.params("id"));
+    //   Concert concert = Concert.find(id);
+    //   model.put("concert", concert);
+    //   model.put("allBands", Band.all());
+    //   model.put("template", "templates/concert.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
+    //
+    // post("/bands", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //
+    //   String band_name = request.queryParams("band_name");
+    //   String ingredients = request.queryParams("ingredients");
+    //   Band newBand = new Band(band_name, ingredients);
+    //   newBand.save();
+    //   response.redirect("/bands");
+    //   return null;
+    // });
+    //
+    // post("/bands/:id/delete", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   int bandId = Integer.parseInt(request.queryParams("bandId"));
+    //   Band band = Band.find(bandId);
+    //   band.delete();
+    //   response.redirect("/bands");
+    //   return null;
+    // });
+    //
+    // post("/bands/:id", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   int bandId = Integer.parseInt(request.queryParams("band_id"));
+    //   int concertId = Integer.parseInt(request.queryParams("concertTitle"));
+    //   Concert concert = Concert.find(concertId);
+    //   Band band = Band.find(bandId);
+    //   band.addConcert(concert);
+    //   response.redirect("/bands/" + bandId);
+    //   return null;
+    // });
+    //
+    // post("/concerts/:id", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   int concertId = Integer.parseInt(request.queryParams("concert_id"));
+    //   int bandId = Integer.parseInt(request.queryParams("band_id"));
+    //   Band band = Band.find(bandId);
+    //   Concert concert = Concert.find(concertId);
+    //   concert.addBand(band);
+    //   response.redirect("/concerts/" + concertId);
+    //   return null;
+    // });
+    //
+    // post("/concerts", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   String concertTitle = request.queryParams("concertTitle");
+    //   Concert newConcert = new Concert(concertTitle);
+    //   newConcert.save();
+    //   response.redirect("/concerts");
+    //   return null;
+    // });
+    //
+    // post("/concerts/:id/delete", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   int concertId = Integer.parseInt(request.queryParams("concertId"));
+    //   Concert concert = Concert.find(concertId);
+    //   concert.delete();
+    //   response.redirect("/concerts");
+    //   return null;
+    // });
 
 
 

@@ -21,7 +21,7 @@ public class BandTest {
   public void equals_returnsTrueIfNamesAreTheSame() {
     Band firstBand = new Band("The Band");
     Band secondBand = new Band("The Band", "Rock");
-    assertTrue(firstBand.getName().equals(secondBand).getName());
+    assertTrue(firstBand.getName().equals(secondBand.getName()));
   }
   //
   // @Test

@@ -1,21 +1,21 @@
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import org.sql2o.*;
 
 public class Band {
+
   private int id;
   private String name;
   private String genre;
 
 
-  public Band (String name, String genre) {
-    this.name = name;
-    this.genre = genre;
-  }
-
   public Band (String name) {
     this.name = name;
     this.genre = "";
+  }
+
+  public Band (String name, String genre) {
+    this.name = name;
+    this.genre = genre;
   }
 
 
@@ -44,7 +44,7 @@ public class Band {
       return false;
     } else {
       Band newBand = (Band) otherBand;
-      return this.getname().equals(newBand.getname());
+      return this.getName().equals(newBand.getName());
     }
   }
 
@@ -52,8 +52,8 @@ public class Band {
     String sql = "INSERT INTO bands (name, genre) VALUES (:name, :genre)";
      try(Connection con = DB.sql2o.open()) {
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", name)
-        .addParameter("genre", genre)
+        .addParameter("name", this.name)
+        .addParameter("genre", this.genre)
         .executeUpdate()
         .getKey();
     }
@@ -69,12 +69,12 @@ public class Band {
     }
   }
 
-  public void update(String newName, String newGenre) {
-    String sql ="UPDATE bands SET name = :newName, genre = :newGenre WHERE id = :id";
+  public void update(String name, String genre) {
+    String sql ="UPDATE bands SET name = :name, genre = :genre WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
-      .addParameter("newGenre", newName)
-      .addParameter("newGenre", newGenre)
+      .addParameter("name", name)
+      .addParameter("genre", genre)
       .addParameter("id", this.id)
       .executeUpdate();
     }
@@ -84,7 +84,7 @@ public class Band {
     String sqlJoin ="DELETE FROM concerts WHERE Band_id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sqlJoin)
-        .addParameter("id", id)
+        .addParameter("id", this.id)
         .executeUpdate();
     }
     String sql ="DELETE FROM Bands WHERE id = :id";
@@ -108,12 +108,12 @@ public class Band {
     }
   }
 
-  public void addConcert (Venue venue, date date) {
+  public void addConcert (Venue venue, Date date) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO concerts (venue_id, band_id, date) VALUES (:band_id, :venue_id, :date)";
       con.createQuery(sql)
       .addParameter("band_id", this.getId())
-      .addParameter("venue_id", venue_id.getId())
+      .addParameter("venue_id", venue.getId())
       .addParameter("date", date)
       .executeUpdate();
     }
@@ -126,11 +126,8 @@ public class Band {
       "WHERE bands.id = :id";
       List concerts = con.createQuery(joinSql)
       .addParameter("id", this.id)
-      .addParameter("venues.location", venues.location)
-      .addParameter("venues.name", venues.name)
-      .addParameter("concerts.name", concerts.name)
-      .addParameter("concerts.date", concerts.date)
       .executeAndFetchTable().asList();
+      return concerts;
     }
   }
 }
