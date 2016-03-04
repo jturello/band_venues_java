@@ -18,7 +18,6 @@ public class Band {
     this.genre = genre;
   }
 
-
   public int getId() {
     return id;
   }
@@ -29,6 +28,17 @@ public class Band {
 
   public String getGenre() {
     return genre;
+  }
+
+  public void update(String name, String genre) {
+    String sql ="UPDATE bands SET name = :name, genre = :genre WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+      .addParameter("name", name)
+      .addParameter("genre", genre)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
   }
 
   public static  List<Band> all() {
@@ -66,17 +76,6 @@ public class Band {
       .addParameter("id", id)
       .executeAndFetchFirst(Band.class);
       return Band;
-    }
-  }
-
-  public void update(String name, String genre) {
-    String sql ="UPDATE bands SET name = :name, genre = :genre WHERE id = :id";
-    try(Connection con = DB.sql2o.open()) {
-      con.createQuery(sql)
-      .addParameter("name", name)
-      .addParameter("genre", genre)
-      .addParameter("id", this.id)
-      .executeUpdate();
     }
   }
 

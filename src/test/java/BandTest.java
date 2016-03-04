@@ -16,46 +16,53 @@ public class BandTest {
     assertEquals(Band.all().size(), 0);
   }
 
-
   @Test
   public void equals_returnsTrueIfNamesAreTheSame() {
     Band firstBand = new Band("The Band");
     Band secondBand = new Band("The Band", "Rock");
     assertTrue(firstBand.getName().equals(secondBand.getName()));
   }
-  //
-  // @Test
-  // public void save_addsInstanceOfBandToDatabase() {
-  //   Band newBand = new Band("BLT");
-  //   newBand.save();
-  //   Band savedBand = Band.all().get(0);
-  //   assertTrue(newBand.equals(savedBand));
-  // }
-  //
-  // @Test
-  // public void save_assignsIdToObject() {
-  //   Band newBand = new Band("Tacos");
-  //   newBand.save();
-  //   Band savedBand = Band.all().get(0);
-  //   assertEquals(newBand.getId(), savedBand.getId());
-  // }
-  //
-  // @Test
-  // public void find_locatesAllInstancesOfClassInDatabaseUsingId() {
-  //   Band newBand = new Band("BLT");
-  //   newBand.save();
-  //   Band savedBand = Band.find(newBand.getId());
-  //   assertTrue(newBand.equals(savedBand));
-  // }
-  //
-  // @Test
-  // public void updateTitle_updatesTitleOfObject() {
-  //   Band newBand = new Band("BLT");
-  //   newBand.save();
-  //   newBand.updateTitle("Susan");
-  //   assertEquals(Band.all().get(0).getTitle(), ("Susan"));
-  // }
-  //
+
+  @Test
+  public void save_addsInstanceOfBandToDatabase() {
+    Band newBand = new Band("The Ramons");
+    newBand.save();
+    Band savedBand = Band.all().get(0);
+    assertTrue(newBand.equals(savedBand));
+  }
+
+  @Test
+  public void save_assignsIdToObject() {
+    Band newBand = new Band("Red Hot Chili Peppers");
+    newBand.save();
+    Band savedBand = Band.all().get(0);
+    assertEquals(newBand.getId(), savedBand.getId());
+  }
+
+  @Test
+  public void find_locatesAllBandInstancesInDatabaseUsingId() {
+    Band newBand = new Band("The Dave Matthews Band");
+    newBand.save();
+    Band savedBand = Band.find(newBand.getId());
+    assertTrue(newBand.equals(savedBand));
+  }
+
+  @Test
+  public void update_updatesBandName_true() {
+    Band newBand = new Band("Katy Perry", "Rock");
+    newBand.save();
+    newBand.update("The Katy Perry Band", "Pop");
+    assertEquals(Band.all().get(0).getName(), ("The Katy Perry Band"));
+  }
+
+  @Test
+  public void update_updatesBandGenre_true() {
+    Band newBand = new Band("Katy Perry", "Rock");
+    newBand.save();
+    newBand.update("The Katy Perry Band", "Pop");
+    assertEquals(Band.all().get(0).getGenre(), ("Pop"));
+  }
+
   // @Test
   // public void updateIngredients_updatesIngredientsOfObject() {
   //   Band newBand = new Band("Sally", "Tomatoes");
