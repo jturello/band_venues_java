@@ -30,6 +30,12 @@ public class Band {
     return genre;
   }
 
+  public List getConcertList(String sortBy) {
+
+
+    return new ArrayList();
+  }
+
   public void update(String name, String genre) {
     String sql ="UPDATE bands SET name = :name, genre = :genre WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
@@ -110,13 +116,15 @@ public class Band {
   public void addConcert (Venue venue, Date date) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO concerts (venue_id, band_id, date) VALUES (:band_id, :venue_id, :date)";
-      con.createQuery(sql)
+      con.createQuery(sql, true)
       .addParameter("band_id", this.getId())
       .addParameter("venue_id", venue.getId())
       .addParameter("date", date)
-      .executeUpdate();
+      .executeUpdate()
+      .getKey();
     }
   }
+
 
   public List<Map<String, Object>> getConcerts() {
     try(Connection con = DB.sql2o.open()) {

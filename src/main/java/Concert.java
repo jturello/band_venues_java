@@ -1,22 +1,45 @@
 import java.util.*;
 import org.sql2o.*;
+import java.sql.Date;
 
 public class Concert {
-//   private String title;
-//   private int id;
-//
-//   public Concert (String title) {
-//     this.title = title;
-//   }
-//
-//   public String getTitle() {
-//     return title;
-//   }
-//
-//   public int getId() {
-//     return id;
-//   }
-//
+
+  private int id;
+  private int band_id;
+  private int venue_id;
+  private Date date;
+
+
+  public Concert (int band_id, int venue_id, int year, int month, int dayOfMonth) {
+    this.band_id = band_id;
+    this.venue_id = venue_id;
+    this.date = Date.valueOf(Integer.toString(year) + Integer.toString(month) + Integer.toString(dayOfMonth));
+  }
+
+  public Concert (String venueName, int band_id, int year, int month, int dayOfMonth) {
+    this.band_id = band_id;
+    this.venue_id = venue_id;
+    this.date = Date.valueOf(Integer.toString(year) + Integer.toString(month) + Integer.toString(dayOfMonth));
+  }
+
+  // public Concert (String band, )
+
+  public String toString() {
+    return Venue.find(venue_id).toString() + " - " + date.toString();
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getBandName() {
+    return Band.find(band_id).getName();
+  }
+
+  public String getVenueName() {
+    return Venue.find(venue_id).getName();
+  }
+
 //   public static  List<Concert> all() {
 //     String sql = "SELECT * FROM concerts";
 //     try(Connection con = DB.sql2o.open()) {

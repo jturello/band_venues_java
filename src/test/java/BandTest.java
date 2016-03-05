@@ -1,6 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.List;
+import java.sql.Date;
 
 public class BandTest {
 
@@ -71,19 +72,19 @@ public class BandTest {
     assertEquals(Band.all().size(), 0);
   }
 
-  // @Test
-  // public void addConcert_addsConcertToBand() {
-  //   Band newBand = new Band("BLT");
-  //   newBand.save();
-  //
-  //   Concert newConcert = new Concert("Mexican");
-  //   newConcert.save();
-  //
-  //   newBand.addConcert(newConcert);
-  //   Concert savedConcert = newBand.getConcerts().get(0);
-  //   assertTrue(newConcert.equals(savedConcert));
-  // }
-  //
+  @Test
+  public void addConcert_addsConcertToBand() {
+    Band band = new Band("The Supremes", "Motown");
+    band.save();
+    Venue venue = new Venue("The Hollywood Bowl", "Hollywood");
+    venue.save();
+    Date date = Date.valueOf("1965-06-15");
+
+    band.addConcert(venue, date);
+
+    assertTrue(this.getConcerts().get(0).equals(savedConcert));
+  }
+
   // @Test
   // public void getConcerts_getsBandsConcertsByBandID() {
   //   Band newBand = new Band("BLT");

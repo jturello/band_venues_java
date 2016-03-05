@@ -22,6 +22,28 @@ public class Venue {
     return this.id;
   }
 
+  public String toString() {
+    return name + " (" + location + ")";
+  }
+
+  public static Venue find(int id) {
+    String sql = "SELECT * FROM venues WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetchFirst(Venue.class);
+    }
+  }
+
+  public static Venue find(String name) {
+    String sql = "SELECT * FROM venues WHERE name = :name";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+      .addParameter("name", name)
+      .executeAndFetchFirst(Venue.class);
+    }
+  }
+
 
 
 } // END Venue CLASS
