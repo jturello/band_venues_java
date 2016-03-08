@@ -3,6 +3,7 @@ import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
 import java.util.*;
+import java.sql.Date;
 
 public class App {
   public static void main(String[] args) {
@@ -39,12 +40,29 @@ public class App {
 
       int id = Integer.parseInt(request.params("id"));
       Band band = Band.find(id);
+      // List venues = ;
 
       model.put("band", band);
+      model.put("venues", Venue.all());
       model.put("concerts", band.getConcerts());
       model.put("template", "templates/band.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+
+    post("/bands/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      int bandId = Integer.parseInt(request.queryParams("band_id"));
+      int venueId = Integer.parseInt(request.queryParams("venue_id"));
+      Date concertDate = Date.valueOf(request.queryParams("concertDate"));
+      Venue venue = Venue.find(venueId);
+      Band band = Band.find(bandId);
+      band.addConcert(venue, concertDate);
+      response.redirect("/bands/" + bandId);
+      return null;
+    });
+
 
     get("/venues", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -125,17 +143,7 @@ public class App {
     //   response.redirect("/bands");
     //   return null;
     // });
-    //
-    // post("/bands/:id", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int bandId = Integer.parseInt(request.queryParams("band_id"));
-    //   int concertId = Integer.parseInt(request.queryParams("concertTitle"));
-    //   Concert concert = Concert.find(concertId);
-    //   Band band = Band.find(bandId);
-    //   band.addConcert(concert);
-    //   response.redirect("/bands/" + bandId);
-    //   return null;
-    // });
+
     //
     // post("/concerts/:id", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();

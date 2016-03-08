@@ -127,7 +127,7 @@ public class Band {
 
   public List<Map<String, Object>> getConcerts() {
     try(Connection con = DB.sql2o.open()) {
-      String joinSql = "SELECT venues.location, venues.name, band_venues.date FROM band_venues " +
+      String joinSql = "SELECT venues.name, venues.location, band_venues.date FROM band_venues " +
       "JOIN venues ON (band_venues.venue_id = venues.id) " +
       "JOIN bands ON (band_venues.band_id = bands.id) " +
       "WHERE bands.id = :id " +

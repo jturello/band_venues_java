@@ -1,42 +1,51 @@
-<h2>$.getTitle()</h2>
-<h4>$recipe.getIngredients()</h4>
-<h4>$recipe.getInstructions()</h4>
-<h4>$recipe.getRating()</h4>
-#if ($recipe.getTags())
-  <p>Here are the tags you have applied to this recipe:</p>
-  #foreach ($tag in $recipe.getTags())
-    <li><a href="/tags/$tag.getId()">$tag.getTitle()</a></li>
+<h2>Band: $band.getName()</h2>
+<h4>Genre: $band.getGenre()</h4>
+
+<hr>
+
+
+<h5>Add a concert/venue:</h5>
+<form action="/bands/$band.getId()" method="post">
+
+  <input id="band_id" name="band_id" type="hidden" value="$band.getId()">
+
+  <label for=concertDate>Concert Date (yyyy-mm-dd):</label>
+  <input id="concertDate" name="concertDate" type="text">
+
+  <label for="venueName">Venues</label>
+  <select id="venue_id" name="venue_id" type="number">
+    #foreach ($venue in $venues)
+      <option value="$venue.getId()">$venue.getName() - $venue.getLocation()</option>
+    #end
+  </select>
+  <button id="addConcertVenue" type="submit">Add Concert/Venue</button>
+</form>
+
+<hr>
+
+<h5>Add a venue:</h5>
+<form action="/venues" method="post">
+  <label for="name">Venue name:</label>
+  <input id="name" name="name" type="text" required autofocus="autofocus">
+
+  <label for="location">Venue location:</label>
+  <input id="location" name="location" type="text" required>
+
+  <button id="addVenueBtn" type="submit">Add Venue</button>
+</form>
+
+<hr>
+
+#if ($band.getConcerts())
+  <p>Concerts/venues the band has played:</p>
+  #foreach ($concert in $concerts)
+    <li>$concert.get("date"): $concert.get("name") - $concert.get("location")</li>
   #end
 #end
 
-<form action="/recipes/$recipe.getId()" method="post">
-
-  <input id="recipe_id" name="recipe_id" type="hidden" value="$recipe.getId()">
-
-
-  <label for="tagTitle">Assign Tag</label>
-  <select id="tagTitle" name="tagTitle" type="text">
-    #foreach($tag in $allTags)
-    <option value="$tag.getId()">$tag.getTitle()</option>
-    #end
-  </select>
-  <button id="assignTagBtn" type="submit">Assign Tag</button>
-</form>
 
 <hr>
 
-<form action="/recipes/$recipe.getId()/update" method="post">
-  <label for="updateRecipeTitle">Recipe Name</label>
-  <input id="updateRecipeTitle" name="updateRecipeTitle" type="text" required autofocus="autofocus" value="$recipe.getTitle()">
-
-  <label for="updateRecipeIngredients">Recipe Ingredients</label>
-  <input id="updateRecipeIngredients" name="updateRecipeIngredients" value="$recipe.getIngredients()" type="text" required>
-
-  <button type="submit" id="updateRecipe">Update Recipe</button>
-</form>
-
-<hr>
-
-  <a href="/recipes">Return to Recipe List</a>
+  <a href="/">Return to Band List</a>
   <p></p>
-  <a href="/tags">Return to Tag List</a>
+  <a href="/venues">Return to Venue List</a>
