@@ -1,0 +1,40 @@
+<h2>Venue List</h2>
+
+
+<h3 class="addVenue">Add a venue:</h3>
+
+<form action="/venues" method="post">
+  <label for="name">Venue name:</label>
+  <input id="name" name="name" type="text" required autofocus="autofocus">
+
+  <label for="location">Venue location:</label>
+  <input id="location" name="location" type="text" required>
+
+  <button id="addVenueBtn" type="submit">Add Venue</button>
+</form>
+
+<hr>
+
+<a href="/">Return to Band List</a>
+
+<p></p>
+
+<ul>
+#foreach ($venue in $venues)
+  <li><a href="/venues/$venue.getId()">$venue.getName()</a></li>
+  <!-- <form action="/venues/$venue.getId()/delete" class="form-inline" method="post">
+    <input id="venueId" name="venueId" class="form-control" type="hidden" value="$venue.getId()">
+    <button id="$venue.getId()" class="btn btn-success" type ="submit">Delete Venue</button>
+  </form> -->
+#end
+</ul>
+
+
+<a href="/venues">Return to Venue List</a>
+
+<p></p>
+<p></p>
+<!--
+<form action="/venues/deleteAll" method="post">
+    <button id="deleteAllVenuesBtn" type="submit" class="btn btn-warning">Delete All Venues</button>
+</form> -->

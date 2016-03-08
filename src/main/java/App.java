@@ -9,27 +9,76 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    // get("/", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   model.put("template", "templates/index.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
+    get("/", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      List<Band> bands = Band.all();
+
+      model.put("bands", bands);
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
+    post("/bands", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      String name = request.queryParams("name");
+      String genre = request.queryParams("genre");
+
+      Band band = new Band(name, genre);
+      band.save();
+
+      response.redirect("/");
+      return null;
+    });
+
+
+    get("/bands/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      int id = Integer.parseInt(request.params("id"));
+      Band band = Band.find(id);
+
+      model.put("band", band);
+      model.put("concerts", band.getConcerts());
+      model.put("template", "templates/band.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/venues", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      model.put("venues", Venue.all());
+
+      model.put("template", "templates/venues.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
+    post("/venues", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      String name = request.queryParams("name");
+      String location = request.queryParams("location");
+      Venue venue = new Venue(name, location);
+      venue.save();
+
+      response.redirect("/venues");
+      return null;
+    });
+
     // get("/bands", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   model.put("bands", Band.all());
     //
-    //   model.put("template", "templates/bands.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
-    // get("/concerts", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   model.put("concerts", Concert.all());
-    //   model.put("template", "templates/concerts.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
+    //   String band_name = request.queryParams("band_name");
+    //   String ingredients = request.queryParams("ingredients");
+    //   Band newBand = new Band(band_name, ingredients);
+    //   newBand.save();
+    //   response.redirect("/bands");
+    //   return null;
+    // });
+
     // post("/bands/deleteAll", (request, response) -> {
     //     HashMap<String, Object> model = new HashMap<String, Object>();
     //     Band.deleteAll();
@@ -48,16 +97,7 @@ public class App {
     //     return null;
     // });
     //
-    // get("/bands/:id", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int id = Integer.parseInt(request.params("id"));
-    //   Band band = Band.find(id);
-    //   model.put("band", band);
-    //   model.put("allConcerts", Concert.all());
-    //   model.put("template", "templates/band.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
+
     // post("/concerts/deleteAll", (request, response) -> {
     //     HashMap<String, Object> model = new HashMap<String, Object>();
     //     Concert.deleteAll();
@@ -75,16 +115,7 @@ public class App {
     //   return new ModelAndView(model, layout);
     // }, new VelocityTemplateEngine());
     //
-    // post("/bands", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //
-    //   String band_name = request.queryParams("band_name");
-    //   String ingredients = request.queryParams("ingredients");
-    //   Band newBand = new Band(band_name, ingredients);
-    //   newBand.save();
-    //   response.redirect("/bands");
-    //   return null;
-    // });
+
     //
     // post("/bands/:id/delete", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
@@ -116,15 +147,7 @@ public class App {
     //   response.redirect("/concerts/" + concertId);
     //   return null;
     // });
-    //
-    // post("/concerts", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   String concertTitle = request.queryParams("concertTitle");
-    //   Concert newConcert = new Concert(concertTitle);
-    //   newConcert.save();
-    //   response.redirect("/concerts");
-    //   return null;
-    // });
+
     //
     // post("/concerts/:id/delete", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
@@ -150,8 +173,8 @@ public class App {
     //   response.redirect("/courses/" + courseId);
     //   return null;
     // });
-  }
+  } // END MAIN METHOD
 
   //public static 'Returntype' 'FuncName' (Paramtype param) {}  //first business logic function
 
-}
+} // END APP CLASS

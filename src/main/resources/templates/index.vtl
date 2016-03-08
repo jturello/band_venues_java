@@ -1,7 +1,29 @@
-index.vtl
-<h2>Recipe Box</h2>
 
+<h3 class="addBand">Add a band:</h3>
 
-<a href="/recipes">Add a recipe</a>
+<form action='/bands' method="post">
+  <div class="form-group">
+    <label for="name">Band name:</label>
+    <input id="name" name="name" class="form-control" type="text" required>
+    <label for="genre">Genre:</label>
+    <input id="genre" name="genre" class="form-control" type="text">
+  </br>
+    <button type="submit" class="btn btn-info">Add Band</button>
+  </div>
+</form>
+
+<hr/>
+
+<a href="/venues">Go to Venue List</a>
+
 <p></p>
-<a href="/tags">Add a tag</a>
+
+<h3>Band List:</h3>
+
+<ul>
+#foreach ($band in $bands)
+  <li>
+    <a href="/bands/$band.getId()">$band.getName()</a>
+  </li>
+#end
+</ul>

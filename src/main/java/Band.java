@@ -78,21 +78,20 @@ public class Band {
   public static Band find(int id) {
     String sql = "SELECT * FROM bands WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
-      Band Band = con.createQuery(sql)
+      return con.createQuery(sql)
       .addParameter("id", id)
       .executeAndFetchFirst(Band.class);
-      return Band;
     }
   }
 
   public void delete() {
-    String sqlJoin ="DELETE FROM concerts WHERE Band_id = :id";
+    String sqlJoin ="DELETE FROM band_venues WHERE band_id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sqlJoin)
         .addParameter("id", this.id)
         .executeUpdate();
     }
-    String sql ="DELETE FROM Bands WHERE id = :id";
+    String sql ="DELETE FROM bands WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
         .addParameter("id", id)
@@ -101,12 +100,12 @@ public class Band {
   }
 
   public static void deleteAll() {
-    String sqlJoin ="DELETE FROM Concerts";
+    String sqlJoin ="DELETE FROM band_venues";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sqlJoin)
         .executeUpdate();
     }
-    String sql ="DELETE FROM Bands ";
+    String sql ="DELETE FROM bands ";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
         .executeUpdate();
@@ -115,7 +114,7 @@ public class Band {
 
   public void addConcert (Venue venue, Date date) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO concerts (venue_id, band_id, date) VALUES (:band_id, :venue_id, :date)";
+      String sql = "INSERT INTO band_venues (band_id, venue_id, date) VALUES (:band_id, :venue_id, :date)";
       con.createQuery(sql, true)
       .addParameter("band_id", this.getId())
       .addParameter("venue_id", venue.getId())
@@ -128,9 +127,11 @@ public class Band {
 
   public List<Map<String, Object>> getConcerts() {
     try(Connection con = DB.sql2o.open()) {
-      String joinSql = "SELECT venues.location, venues.name, concerts.name, concerts.date FROM concerts " +
-      "JOIN venues ON (concerts.venue_id = venues.id) " +
-      "WHERE bands.id = :id";
+      String joinSql = "SELECT venues.location, venues.name, band_venues.date FROM band_venues " +
+      "JOIN venues ON (band_venues.venue_id = venues.id) " +
+      "JOIN bands ON (band_venues.band_id = bands.id) " +
+      "WHERE bands.id = :id " +
+      "ORDER BY date";
       List concerts = con.createQuery(joinSql)
       .addParameter("id", this.id)
       .executeAndFetchTable().asList();

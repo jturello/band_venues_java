@@ -65,12 +65,36 @@ public class BandTest {
   }
 
   @Test
-  public void delete() {
-    Band newBand = new Band("Huey Lewis and the News");
-    newBand.save();
-    newBand.delete();
-    assertEquals(Band.all().size(), 0);
+  public void delete_deletesSelectedBandFromDatabase_true() {
+    Band band = new Band("The Ramons");
+    band.save();
+    band.delete();
+    assertEquals(0, Band.all().size());
   }
+
+  @Test
+  public void delete_doesNotDeletesNonSelectedBandFromDatabase_true() {
+    Band firstBand = new Band("The Ramons");
+    Band secondBand = new Band("Huey Lewis and the News");
+    firstBand.save();
+    secondBand.save();
+    firstBand.delete();
+    assertEquals(1, Band.all().size());
+    assertEquals("Huey Lewis and the News", Band.all().get(0).getName());
+  }
+
+    @Test
+    public void deleteAll_deletesAllBandsAndConcerts() {
+        Band firstBand = new Band("The Ramons");
+        Band secondBand = new Band("Huey Lewis and the News");
+        firstBand.save();
+        secondBand.save();
+        Venue venue = new Venue("The Hollywood Bowl", "Hollywood");
+        venue.save();
+        Band.deleteAll();
+        assertEquals(0, Band.all().size());
+    }
+
 
   @Test
   public void addConcert_addsConcertToBand() {
@@ -78,37 +102,48 @@ public class BandTest {
     band.save();
     Venue venue = new Venue("The Hollywood Bowl", "Hollywood");
     venue.save();
-    Date date = Date.valueOf("1965-06-15");
+    Date date1 = Date.valueOf("1965-06-15");
 
-    band.addConcert(venue, date);
+    band.addConcert(venue, date1);
 
-    assertTrue(this.getConcerts().get(0).equals(savedConcert));
+    assertEquals(date1, band.getConcerts().get(0).get("date"));
+    assertEquals(venue.getName(), band.getConcerts().get(0).get("name"));
+    assertEquals(venue.getLocation(), band.getConcerts().get(0).get("location"));
   }
 
-  // @Test
-  // public void getConcerts_getsBandsConcertsByBandID() {
-  //   Band newBand = new Band("BLT");
-  //   newBand.save();
-  //
-  //   Concert newConcert = new Concert("Mexican");
-  //   newConcert.save();
-  //
-  //   newBand.addConcert(newConcert);
-  //   List savedConcerts = newBand.getConcerts();
-  //   assertEquals(savedConcerts.size(), 1);
-  // }
-  //
-  // @Test
-  // public void deleteAll_deletesAllBandsAndConcerts() {
-  //     Band firstBand = new Band("BLT");
-  //     Band secondBand = new Band("Taco");
-  //     firstBand.save();
-  //     secondBand.save();
-  //     Concert firstConcert = new Concert("firstConcert");
-  //     firstBand.addConcert(firstConcert);
-  //     Band.deleteAll();
-  //     assertEquals(Band.all().size(), 0);
-  // }
+
+  @Test
+  public void addConcert_returnsResultsInDateOrderDescending_true() {
+    Band band = new Band("The Supremes", "Motown");
+    band.save();
+    Venue venue = new Venue("The Hollywood Bowl", "Hollywood");
+    venue.save();
+    Date date1 = Date.valueOf("1968-06-15");
+    Date date2 = Date.valueOf("1968-01-01");
+
+    band.addConcert(venue, date1);
+    band.addConcert(venue, date2);
+    assertEquals(date2, band.getConcerts().get(0).get("date"));
+    // System.out.println(band.getConcerts().size());
+    // System.out.println(band.getConcerts().get(0).values().toString());
+    // System.out.println(band.getConcerts().get(0).keySet().toString());
+  }
+
+  @Test
+  public void addConcert_throwsExceptionWhenUniqueConstraintThrown_true() {
+    Band band = new Band("The Supremes", "Motown");
+    band.save();
+    Venue venue = new Venue("The Hollywood Bowl", "Hollywood");
+    venue.save();
+    Date date1 = Date.valueOf("1965-06-15");
+    Date date2 = Date.valueOf("1968-01-01");
+
+    band.addConcert(venue, date1);
+    band.addConcert(venue, date2);
+
+  }
+
+
   //
   // @Test
   // public void deleteAll_deletesConcertAssociations () {
@@ -120,5 +155,9 @@ public class BandTest {
   //     Band.deleteAll();
   //     assertEquals(firstConcert.getBands().size(), 0);
   // }
+
+
+    // org.sql2o.Sql2oException: Error in executeUpdate, ERROR: duplicate key value violates unique constraint "unique_instance"
+    // Detail: Key (band_id, venue_id, date)=(37, 6, 1968-01-01) already exists.
 
 } // END BandTest CLASS

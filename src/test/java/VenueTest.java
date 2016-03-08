@@ -11,20 +11,16 @@ public class VenueTest {
   public DatabaseRule database = new DatabaseRule();
 
 
+  @Test
+  public void all_emptyAtFirst() {
+    assertEquals(Venue.all().size(), 0);
+  }
 
-  // @Test
-  // public void all_emptyAtFirst() {
-  //   assertEquals(Band.all().size(), 0);
-  // }
-  //
-  // @Test
-  // public void equals_returnsTrueIfNamesAreTheSame() {
-  //   Band firstBand = new Band("BLT");
-  //   Band secondBand = new Band("BLT", "bacon, lettice, tomato");
-  //   assertTrue(firstBand.equals(secondBand));
-  // }
-  //
-  //
-  // 
+  @Test
+  public void equals_returnsTrueIfVenueNameAndLocationMatch_true() {
+    Venue firstVenue = new Venue("someVenue", "someLocation");
+    Venue secondVenue = new Venue("someVenue", "someLocation");
+    assertTrue(firstVenue.getName().equals(secondVenue.getName()));
+  }
 
 } // END OF VenueTest CLASS
