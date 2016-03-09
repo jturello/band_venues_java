@@ -49,9 +49,15 @@
   #end
 #end
 
-
 <hr>
 
   <a href="/">Return to Band List</a>
   <p></p>
   <a href="/venues">Return to Venue List</a>
+
+<hr>
+
+<form action="/bands/:id/delete" class="form-inline"  method="post">
+  <input name="band_id" id="band_id" type="hidden" value="$band.getId()">
+  <button type="submit" class="btn btn-warning">Delete Band</button>
+</form>

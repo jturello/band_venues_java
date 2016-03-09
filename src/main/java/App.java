@@ -35,6 +35,17 @@ public class App {
     });
 
 
+    post("/bands/:id/delete", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      int band_id = Integer.parseInt(request.queryParams("band_id"));
+      Band band = Band.find(band_id);
+      band.delete();
+
+      response.redirect("/");
+      return null;
+    });
+
     get("/bands/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
 
@@ -49,6 +60,15 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+
+    post("/bands/deleteAll", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+
+        Band.deleteAll();
+        response.redirect("/");
+        return null;
+    });
+    
 
     post("/bands/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -103,12 +123,6 @@ public class App {
     //   return null;
     // });
 
-    // post("/bands/deleteAll", (request, response) -> {
-    //     HashMap<String, Object> model = new HashMap<String, Object>();
-    //     Band.deleteAll();
-    //     response.redirect("/bands");
-    //     return null;
-    // });
     //
     // post("/bands/:id/update", (request, response) -> {
     //     HashMap<String, Object> model = new HashMap<String, Object>();
@@ -140,15 +154,6 @@ public class App {
     // }, new VelocityTemplateEngine());
     //
 
-    //
-    // post("/bands/:id/delete", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int bandId = Integer.parseInt(request.queryParams("bandId"));
-    //   Band band = Band.find(bandId);
-    //   band.delete();
-    //   response.redirect("/bands");
-    //   return null;
-    // });
 
     //
     // post("/concerts/:id", (request, response) -> {
