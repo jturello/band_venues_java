@@ -1,6 +1,9 @@
-<h2>Band: $band.getName()</h2>
-<h4>Genre: $band.getGenre()</h4>
+<div id="bandvtlHeader">
 
+  <h2><span class="colorSteelBlue">$band.getName()</span></h2>
+  <h4>Genre: <span class="colorSteelBlue">$band.getGenre()</span></h4>
+
+</div>
 <hr>
 
 
@@ -25,6 +28,9 @@
 
 <h5>Add a venue:</h5>
 <form action="/venues" method="post">
+  <input id="requestFrom" name="requestFrom" type="hidden" value="band_vtl">
+  <input id="band_id" name="band_id" type="hidden" value="$band.getId()">
+
   <label for="name">Venue name:</label>
   <input id="name" name="name" type="text" required autofocus="autofocus">
 
@@ -37,7 +43,7 @@
 <hr>
 
 #if ($band.getConcerts())
-  <p>Concerts/venues the band has played:</p>
+  <h4><span class="colorSteelBlue">Concerts/venues the band has played:</span></h4>
   #foreach ($concert in $concerts)
     <li>$concert.get("date"): $concert.get("name") - $concert.get("location")</li>
   #end

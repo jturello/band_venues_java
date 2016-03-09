@@ -4,6 +4,8 @@
 <h3 class="addVenue">Add a venue:</h3>
 
 <form action="/venues" method="post">
+  <input id="requestFrom" name="requestFrom" type="hidden" value="venues_vtl">
+
   <label for="name">Venue name:</label>
   <input id="name" name="name" type="text" required autofocus="autofocus">
 
@@ -13,10 +15,7 @@
   <button id="addVenueBtn" type="submit">Add Venue</button>
 </form>
 
-<hr>
-
-<a href="/">Return to Band List</a>
-
+<p></p>
 <p></p>
 
 <ul>
@@ -30,11 +29,12 @@
 </ul>
 
 
-<a href="/venues">Return to Venue List</a>
-
-<p></p>
-<p></p>
 <!--
 <form action="/venues/deleteAll" method="post">
     <button id="deleteAllVenuesBtn" type="submit" class="btn btn-warning">Delete All Venues</button>
 </form> -->
+
+
+<hr>
+
+<a href="/">Return to Band List</a>

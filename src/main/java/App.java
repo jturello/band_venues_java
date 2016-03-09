@@ -82,6 +82,12 @@ public class App {
       Venue venue = new Venue(name, location);
       venue.save();
 
+      if(request.queryParams("requestFrom").equals("band_vtl")) {
+          int band_id = Integer.parseInt(request.queryParams("band_id"));
+          response.redirect("/bands/" + band_id);
+          return null;
+      };
+
       response.redirect("/venues");
       return null;
     });
