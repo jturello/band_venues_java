@@ -132,6 +132,15 @@ public class App {
       return null;
     });
 
+    post("/venues/deleteAll", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        
+        Venue.deleteAll();
+        response.redirect("/venues");
+        return null;
+    });
+
+
 
     // get("/bands", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
@@ -157,13 +166,7 @@ public class App {
     // });
     //
 
-    // post("/venues/deleteAll", (request, response) -> {
-    //     HashMap<String, Object> model = new HashMap<String, Object>();
-    //     Concert.deleteAll();
-    //     response.redirect("/concerts");
-    //     return null;
-    // });
-    //
+
 
 
 
