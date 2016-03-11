@@ -6,9 +6,6 @@ import java.sql.Date;
 public class BandTest {
 
 
-  // @ClassRule
-  // public static ServerRule server = new ServerRule();
-
   @Rule
   public DatabaseRule database = new DatabaseRule();
 
@@ -26,7 +23,7 @@ public class BandTest {
 
   @Test
   public void save_addsInstanceOfBandToDatabase() {
-    Band newBand = new Band("The Ramons");
+    Band newBand = new Band("newBand");
     newBand.save();
     Band savedBand = Band.all().get(0);
     assertTrue(newBand.equals(savedBand));
@@ -124,9 +121,6 @@ public class BandTest {
     band.addConcert(venue, date1);
     band.addConcert(venue, date2);
     assertEquals(date2, band.getConcerts().get(0).get("date"));
-    // System.out.println(band.getConcerts().size());
-    // System.out.println(band.getConcerts().get(0).values().toString());
-    // System.out.println(band.getConcerts().get(0).keySet().toString());
   }
 
   @Test
@@ -143,18 +137,6 @@ public class BandTest {
 
   }
 
-
-  //
-  // @Test
-  // public void deleteAll_deletesConcertAssociations () {
-  //     Band firstBand = new Band("BLT");
-  //     firstBand.save();
-  //     int BandId = firstBand.getId();
-  //     Concert firstConcert = new Concert("firstConcert");
-  //     firstBand.addConcert(firstConcert);
-  //     Band.deleteAll();
-  //     assertEquals(firstConcert.getBands().size(), 0);
-  // }
 
 
     // org.sql2o.Sql2oException: Error in executeUpdate, ERROR: duplicate key value violates unique constraint "unique_instance"
