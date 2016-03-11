@@ -30,12 +30,6 @@ public class Band {
     return genre;
   }
 
-  public List getConcertList(String sortBy) {
-
-
-    return new ArrayList();
-  }
-
   public void update(String name, String genre) {
     String sql ="UPDATE bands SET name = :name, genre = :genre WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
@@ -137,5 +131,5 @@ public class Band {
       .executeAndFetchTable().asList();
       return concerts;
     }
-  }
+  }  
 }
