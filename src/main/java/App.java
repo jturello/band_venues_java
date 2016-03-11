@@ -68,7 +68,7 @@ public class App {
         response.redirect("/");
         return null;
     });
-    
+
 
     post("/bands/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -112,6 +112,27 @@ public class App {
       return null;
     });
 
+    get("/venues/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int id = Integer.parseInt(request.params("id"));
+      Venue venue = Venue.find(id);
+      model.put("venue", venue);
+
+      model.put("template", "templates/venue.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
+    post("/venues/:id/delete", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int venue_id = Integer.parseInt(request.queryParams("venue_id"));
+      Venue venue = Venue.find(venue_id);
+      venue.delete();
+      response.redirect("/venues");
+      return null;
+    });
+
+
     // get("/bands", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
     //
@@ -136,23 +157,14 @@ public class App {
     // });
     //
 
-    // post("/concerts/deleteAll", (request, response) -> {
+    // post("/venues/deleteAll", (request, response) -> {
     //     HashMap<String, Object> model = new HashMap<String, Object>();
     //     Concert.deleteAll();
     //     response.redirect("/concerts");
     //     return null;
     // });
     //
-    // get("/concerts/:id", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int id = Integer.parseInt(request.params("id"));
-    //   Concert concert = Concert.find(id);
-    //   model.put("concert", concert);
-    //   model.put("allBands", Band.all());
-    //   model.put("template", "templates/concert.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
+
 
 
     //
@@ -166,19 +178,6 @@ public class App {
     //   response.redirect("/concerts/" + concertId);
     //   return null;
     // });
-
-    //
-    // post("/concerts/:id/delete", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int concertId = Integer.parseInt(request.queryParams("concertId"));
-    //   Concert concert = Concert.find(concertId);
-    //   concert.delete();
-    //   response.redirect("/concerts");
-    //   return null;
-    // });
-
-
-
 
 
     //

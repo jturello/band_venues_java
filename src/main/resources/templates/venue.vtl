@@ -1,0 +1,20 @@
+<div id="venuevtlHeader">
+
+  <h2><span class="colorSteelBlue">$venue.getName()</span></h2>
+  <h4>Location: <span class="colorSteelBlue">$venue.getLocation()</span></h4>
+
+</div>
+
+
+<hr>
+
+  <a href="/">Return to Band List</a>
+  <p></p>
+  <a href="/venues">Return to Venue List</a>
+
+<hr>
+
+<form action="/venues/:id/delete" class="form-inline"  method="post">
+  <input name="venue_id" id="venue_id" type="hidden" value="$venue.getId()">
+  <button type="submit" class="btn btn-warning">Delete Venue</button>
+</form>

@@ -78,4 +78,33 @@ public class Venue {
   }
 
 
+    public void delete() {
+      String sqlJoin ="DELETE FROM band_venues WHERE venue_id = :id";
+      try(Connection con = DB.sql2o.open()) {
+        con.createQuery(sqlJoin)
+          .addParameter("id", this.id)
+          .executeUpdate();
+      }
+      String sql ="DELETE FROM venues WHERE id = :id";
+      try(Connection con = DB.sql2o.open()) {
+        con.createQuery(sql)
+          .addParameter("id", id)
+          .executeUpdate();
+      }
+    }
+
+    public static void deleteAll() {
+      String sqlJoin ="DELETE FROM band_venues";
+      try(Connection con = DB.sql2o.open()) {
+        con.createQuery(sqlJoin)
+          .executeUpdate();
+      }
+      String sql ="DELETE FROM bands ";
+      try(Connection con = DB.sql2o.open()) {
+        con.createQuery(sql)
+          .executeUpdate();
+      }
+    }
+
+
 } // END Venue CLASS
