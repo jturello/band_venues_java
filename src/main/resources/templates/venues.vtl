@@ -21,10 +21,6 @@
 <ul>
 #foreach ($venue in $venues)
   <li><a href="/venues/$venue.getId()">$venue.getName()</a></li>
-  <!-- <form action="/venues/$venue.getId()/delete" class="form-inline" method="post">
-    <input id="venueId" name="venueId" class="form-control" type="hidden" value="$venue.getId()">
-    <button id="$venue.getId()" class="btn btn-success" type ="submit">Delete Venue</button>
-  </form> -->
 #end
 </ul>
 
