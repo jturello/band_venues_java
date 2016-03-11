@@ -99,7 +99,7 @@ public class Venue {
         con.createQuery(sqlJoin)
           .executeUpdate();
       }
-      String sql ="DELETE FROM bands ";
+      String sql ="DELETE FROM venues ";
       try(Connection con = DB.sql2o.open()) {
         con.createQuery(sql)
           .executeUpdate();
