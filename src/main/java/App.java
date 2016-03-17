@@ -34,7 +34,6 @@ public class App {
       return null;
     });
 
-
     post("/bands/:id/delete", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
 
@@ -49,7 +48,7 @@ public class App {
     get("/bands/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
 
-      int id = Integer.parseInt(request.params("id"));
+      int id = Integer.parseInt(request.params(":id"));
       Band band = Band.find(id);
       // List venues = ;
 
@@ -134,12 +133,23 @@ public class App {
 
     post("/venues/deleteAll", (request, response) -> {
         HashMap<String, Object> model = new HashMap<String, Object>();
-        
+
         Venue.deleteAll();
         response.redirect("/venues");
         return null;
     });
 
+    post("/concerts/:id/delete", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      int concert_id = Integer.parseInt(request.params(":id"));
+      int bandId = Integer.parseInt(request.queryParams("band_id"));
+      Band band = Band.find(bandId);
+      band.deleteConcert(concert_id);
+
+      response.redirect("/bands/" + bandId); //pass venue - what does /bands/:id need
+      return null;
+    });
 
 
     // get("/bands", (request, response) -> {
@@ -165,22 +175,6 @@ public class App {
     //     return null;
     // });
     //
-
-
-
-
-
-    //
-    // post("/concerts/:id", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int concertId = Integer.parseInt(request.queryParams("concert_id"));
-    //   int bandId = Integer.parseInt(request.queryParams("band_id"));
-    //   Band band = Band.find(bandId);
-    //   Concert concert = Concert.find(concertId);
-    //   concert.addBand(band);
-    //   response.redirect("/concerts/" + concertId);
-    //   return null;
-    // });
 
 
     //

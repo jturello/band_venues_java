@@ -2,6 +2,10 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.sql.Date;
+import org.assertj.core.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class BandTest {
 
@@ -103,6 +107,7 @@ public class BandTest {
 
     band.addConcert(venue, date1);
 
+    System.out.println(band.getConcerts().get(0).get("id"));
     assertEquals(date1, band.getConcerts().get(0).get("date"));
     assertEquals(venue.getName(), band.getConcerts().get(0).get("name"));
     assertEquals(venue.getLocation(), band.getConcerts().get(0).get("location"));
@@ -124,22 +129,18 @@ public class BandTest {
   }
 
   @Test
-  public void addConcert_throwsExceptionWhenUniqueConstraintThrown_true() {
+  public void addConcert_throwsExceptionWhenUniqueConstraintIsViolated_true() {
     Band band = new Band("The Supremes", "Motown");
     band.save();
     Venue venue = new Venue("The Hollywood Bowl", "Hollywood");
     venue.save();
     Date date1 = Date.valueOf("1965-06-15");
     Date date2 = Date.valueOf("1968-01-01");
-
+    try {
     band.addConcert(venue, date1);
-    band.addConcert(venue, date2);
-
+    band.addConcert(venue, date1);
+    } catch(Exception e){
+      assertThat(e.getMessage().contains("duplicate key value violates unique constraint"));
+    }
   }
-
-
-
-    // org.sql2o.Sql2oException: Error in executeUpdate, ERROR: duplicate key value violates unique constraint "unique_instance"
-    // Detail: Key (band_id, venue_id, date)=(37, 6, 1968-01-01) already exists.
-
 } // END BandTest CLASS

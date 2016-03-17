@@ -115,13 +115,12 @@ public class Band {
       .addParameter("date", date)
       .executeUpdate()
       .getKey();
-    }
+    } 
   }
-
 
   public List<Map<String, Object>> getConcerts() {
     try(Connection con = DB.sql2o.open()) {
-      String joinSql = "SELECT venues.name, venues.location, band_venues.date FROM band_venues " +
+      String joinSql = "SELECT venues.name, venues.location, band_venues.date, band_venues.id FROM band_venues " +
       "JOIN venues ON (band_venues.venue_id = venues.id) " +
       "JOIN bands ON (band_venues.band_id = bands.id) " +
       "WHERE bands.id = :id " +
@@ -131,5 +130,15 @@ public class Band {
       .executeAndFetchTable().asList();
       return concerts;
     }
-  }  
+  }
+
+
+  public void deleteConcert(int concertId) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM band_venues WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("id", concertId)
+      .executeUpdate();
+    }
+  }
 }
