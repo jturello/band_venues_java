@@ -24,35 +24,53 @@ public class AppTest extends FluentTest {
   public static ServerRule server = new ServerRule();
 
 
+  @Test
+  public void rootTest() {
+      goTo("http://localhost:4567/");
+      assertThat(pageSource()).contains("Add a Band");
+  }
 
-}
+  @Test
+  public void addBand_addsBand() {
+    goTo("http://localhost:4567/");
+    fill("#name").with("newBand");
+    fill("#genre").with("newGenre");
+    submit("#addBandBtn");
+    assertThat(pageSource()).contains("newBand");
+  }
 
-  //
-  // @Test
-  // public void rootTest() {
-  //     goTo("http://localhost:4567/");
-  //     assertThat(pageSource()).contains("Recipe Box");
-  // }
-  //
-  //
-  // @Test
-  // public void addRecipe() {
-  //   goTo("http://localhost:4567/recipes");
-  //   fill("#recipe_name").with("Tacos");
-  //   fill("#ingredients").with("Beef");
-  //   submit("#addRecipe");
-  //   assertThat(pageSource()).contains("Tacos");
-  //   assertThat(pageSource()).contains("Beef");
-  // }
-  //
-  // @Test
-  // public void addTag() {
-  //   goTo("http://localhost:4567/tags");
-  //   fill("#tagTitle").with("History");
-  //   submit("#addTagBtn");
-  //   assertThat(pageSource()).contains("History");
-  // }
-  //
+  @Test
+  public void addBand_addsGenre() {
+    goTo("http://localhost:4567/");
+    fill("#name").with("newBand");
+    fill("#genre").with("newGenre");
+    submit("#addBandBtn");
+    click("a", withText("newBand"));
+    assertThat(pageSource()).contains("newGenre");
+  }
+
+  @Test
+  public void goToVenueListLink_navigatesToVenueList_true() {
+    goTo("http://localhost:4567/");
+    click("a", withText("Go to Venue List"));
+    assertThat(pageSource()).contains("Venue List");
+  }
+
+  @Test
+  public void deleteAllBands_deletesAllBands_true() {
+    goTo("http://localhost:4567/");
+    fill("#name").with("firstBand");
+    fill("#genre").with("firstGenre");
+    submit("#addBandBtn");
+    fill("#name").with("secondBand");
+    fill("#genre").with("secondGenre");
+    submit("#addBandBtn");
+    click("#deleteAllBandsBtn");
+    assertThat(pageSource()).doesNotContain("firstBand");
+    assertThat(pageSource()).doesNotContain("secondBand");
+  }
+
+
   // @Test
   // public void addTagToRecipe() {
   //   Tag newTag = new Tag("Mexican");
@@ -76,19 +94,7 @@ public class AppTest extends FluentTest {
   //   assertThat(pageSource()).contains("Mexican");
   //   assertThat(pageSource()).contains("Tacos");
   // }
-  //
-  // @Test
-  // public void deleteRecipe() {
-  //   Tag newTag = new Tag("Mexican");
-  //   newTag.save();
-  //   Recipe newRecipe = new Recipe("Tacos");
-  //   newRecipe.save();
-  //   newRecipe.addTag(newTag);
-  //   String recipeId = "#" + newRecipe.getId();
-  //   goTo("http://localhost:4567/recipes");
-  //   submit(recipeId);
-  //   assertThat(pageSource()).doesNotContain(newRecipe.getTitle());
-  // }
+
   //
   // @Test
   // public void deleteTag() {
@@ -152,3 +158,4 @@ public class AppTest extends FluentTest {
   //   assertThat(pageSource()).contains("Yak Butt");
   // }
   //
+} // END OF AppTest CLASS
