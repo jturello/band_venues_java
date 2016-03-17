@@ -33,3 +33,10 @@
 <hr>
 
 <a href="/">Return to Band List</a>
+
+<p></p>
+<p></p>
+
+#if ($band)
+  <a href="/bands/$band.getId()">Return to $band.getName()'s page</a>
+#end

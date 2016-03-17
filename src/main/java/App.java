@@ -145,7 +145,7 @@ public class App {
       int concert_id = Integer.parseInt(request.params(":id"));
       int bandId = Integer.parseInt(request.queryParams("band_id"));
       Band band = Band.find(bandId);
-      band.deleteConcert(concert_id);
+      band.deleteConcert(Integer.parseInt(request.params(":id")));
 
       response.redirect("/bands/" + bandId); //pass venue - what does /bands/:id need
       return null;

@@ -107,7 +107,6 @@ public class BandTest {
 
     band.addConcert(venue, date1);
 
-    System.out.println(band.getConcerts().get(0).get("id"));
     assertEquals(date1, band.getConcerts().get(0).get("date"));
     assertEquals(venue.getName(), band.getConcerts().get(0).get("name"));
     assertEquals(venue.getLocation(), band.getConcerts().get(0).get("location"));
