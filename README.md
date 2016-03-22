@@ -1,5 +1,5 @@
 Band Venues
-Epicodus exercise Advanced Database (many to many) code review, 03.10.2016
+Epicodus exercise Advanced Database (many to many) Java code review, 03.22.2016
 
 James Turello
 
@@ -7,6 +7,8 @@ Description:
 This program tracks bands and the venues where they've played concerts.
   Users can add, update, delete, and list bands.
   Users can add, delete, and list venues.
+  The list of all venues displays on the venues page.
+  The list of all bands displays on the bands page.
   Users can add venues with a date to a band (i.e., a concert).
 
 Setup
@@ -18,7 +20,6 @@ $ cd into the project's root directory 'band_venues_java'
 ```
 
 open the file band_venues.sql and change 'Guest' to an owner your Postgres installation recognizes.
-
 then open a terminal window and start Postgres and run the following commands to load the database:
 ```
 $ postgres
@@ -26,6 +27,9 @@ $ postgres
 $ CREATE DATABASE band_venues;
 $ psql band_venues < band_venues.sql;
 $ \c band_venues
+```
+if you want to run unit and/or integration tests additionally enter the following command:
+```
 $ CREATE DATABASE band_venues_test WITH TEMPLATE band_venues;
 ```
 
