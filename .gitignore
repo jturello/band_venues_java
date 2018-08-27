@@ -40,3 +40,10 @@ Thumbs.db
 *.gradle
 *build
 !build.gradle
+
+# intellij specific files #
+##########################
+.idea
+.idea/**
+*.iml
+out/
