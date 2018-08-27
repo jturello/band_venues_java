@@ -22,18 +22,20 @@ $ cd into the project's root directory 'band_venues_java'
 open the file band_venues.sql and change 'Guest' to an owner your Postgres installation recognizes.
 then open a terminal window and start Postgres and run the following commands to load the database:
 ```
-$ postgres
+$ pg_ctl start 
   (open another terminal window and cd into the project's root directory 'band_venues_java')
 $ CREATE DATABASE band_venues;
 $ psql band_venues < band_venues.sql;
 $ \c band_venues
 ```
-if you want to run unit and/or integration tests additionally enter the following command:
+if you also intend to run tests, enter the following command:
 ```
 $ CREATE DATABASE band_venues_test WITH TEMPLATE band_venues;
 ```
+you would then run the command `gradle test` from the project root directory to run the tests
 
-Alternatively, to create the databases manually, run the following sql commands:
+
+If you would rather create the databases manually, run the following sql commands:
 ```
 $ psql
 $ CREATE DATABASE band_venues;
